@@ -1,0 +1,62 @@
+generator client {
+    provider        = "prisma-client-js"
+    output          = "./client"
+    previewFeatures = ["fullTextIndex"]
+}
+
+generator erd {
+    provider = "prisma-erd-generator"
+    output   = "../ERD.svg"
+    theme    = "dark"
+}
+
+generator docs {
+    provider              = "node node_modules/prisma-docs-generator"
+    output                = "../docs"
+    includeRelationFields = false
+}
+
+// generator dart {
+//     provider = "node ./node_modules/@abcx3/prisma-generator-dart/index.js"
+//     output   = "../generated_models/dart"
+//     dryRun   = false
+// }
+
+generator dbml {
+    provider            = "prisma-dbml-generator"
+    output              = "../dbml"
+    outputName          = "lock_screen_rental.dbml"
+    projectName         = "Lock Screen Rental"
+    projectDatabaseType = "mongodb"
+    projectNote         = "Rent your lock screen."
+}
+
+datasource db {
+    provider = "mongodb"
+    url      = env("DATABASE_URL")
+}
+
+model UserToken {
+    id     String @id @default(auto()) @map("_id") @db.ObjectId
+    userId String @db.ObjectId
+    token  String
+    iat    Int    @default(0)
+    exp    Int    @default(0)
+
+    @@index([userId, token])
+}
+
+model User {
+    id          String   @id @default(auto()) @map("_id") @db.ObjectId
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    displayName String
+    email       String   @unique
+    password    String?
+    imageUrl    String?
+    fcm_token   String?
+    phone       String?  @unique
+
+    @@index([createdAt])
+    @@fulltext([email, displayName])
+}

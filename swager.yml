@@ -1,0 +1,702 @@
+openapi: 3.0.0
+info:
+  title: LockScreen Rental API
+  version: 0.1.0
+  description: Lock Screen Rental API documentation
+  contact:
+    name: Robust Research and Development Ltd.
+    url: https://rrad.ltd
+    email: info@rrad.ltd
+components:
+  securitySchemes:
+    bearerAuth: {}
+tags:
+  - name: Health
+    description: Operations related to server health
+  - name: Authentication
+    description: Operations related to authentication
+  - name: User
+    description: Operations related to user authentication and information
+servers:
+  - url: http://localhost:6969
+    description: Development Server
+paths:
+  /user/change-password:
+    post:
+      summary: Change user password endpoint
+      description: Endpoint to change a user's password
+      tags:
+        - User
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            format: bearer
+            description: Bearer token for user authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                password:
+                  type: string
+                prevPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password successfully changed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      auth:
+                        type: object
+                        properties:
+                          token:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Access token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of token expiration
+                                example: 1637520776
+                          refreshToken:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Refresh token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of refresh token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of refresh token expiration
+                                example: 1637520776
+                  message:
+                    type: string
+                    description: Success message
+                    example: Success
+        "400":
+          description: Invalid request or password change failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  data:
+                    type: null
+                  message:
+                    type: string
+                    example: Invalid user ID
+      security:
+        - BearerAuth: []
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+  /user/login:
+    post:
+      summary: User login endpoint
+      description: Endpoint to authenticate users by email and password
+      tags:
+        - User
+        - Authentication
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            format: bearer
+            description: Bearer token for user authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      auth:
+                        type: object
+                        properties:
+                          token:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Access token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of token expiration
+                                example: 1637520776
+                          refreshToken:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Refresh token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of refresh token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of refresh token expiration
+                                example: 1637520776
+                  message:
+                    type: string
+                    description: Success message
+                    example: Success
+        "400":
+          description: Invalid request or login failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  data:
+                    type: null
+                  message:
+                    type: string
+                    example: Invalid email or password
+  /user/me:
+    get:
+      summary: Get user information endpoint
+      description: Endpoint to retrieve user information
+      tags:
+        - User
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            format: bearer
+            description: Bearer token for user authentication
+      responses:
+        "200":
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      displayName:
+                        type: string
+                        description: User's display name
+                        example: John Doe
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: User creation timestamp
+                        example: 2023-11-20T12:00:00Z
+                      fcm_token:
+                        type: string
+                        description: User's FCM token
+                        example: FCMToken123
+                      imageUrl:
+                        type: string
+                        description: User's profile image URL
+                        example: https://example.com/profile.jpg
+                      phone:
+                        type: string
+                        description: User's phone number
+                        example: "+1234567890"
+                  message:
+                    type: string
+                    description: Success message
+                    example: Success
+        "404":
+          description: User information not found or invalid user ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    example: Invalid user ID
+      security:
+        - BearerAuth: []
+  /user/refresh-token:
+    post:
+      summary: Refresh user token endpoint
+      description: Endpoint to refresh user authentication tokens
+      tags:
+        - User
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refreshToken:
+                  type: string
+      responses:
+        "200":
+          description: Token refreshed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      auth:
+                        type: object
+                        properties:
+                          token:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Access token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of token expiration
+                                example: 1637520776
+                          refreshToken:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Refresh token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of refresh token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of refresh token expiration
+                                example: 1637520776
+                  message:
+                    type: string
+                    description: Success message
+                    example: Delete Success
+        "404":
+          description: Token refresh failed or invalid refresh token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    example: Invalid Refresh Token
+  /user/signout:
+    post:
+      summary: User sign out endpoint
+      description: Endpoint to sign out a user and delete associated tokens
+      tags:
+        - User
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            format: bearer
+            description: Bearer token for user authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+      responses:
+        "200":
+          description: User signed out successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    example: Success
+        "404":
+          description: User not found or invalid user ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    example: User not found.
+      security:
+        - BearerAuth: []
+  /user/register:
+    post:
+      summary: User registration endpoint
+      description: Endpoint to register a new user
+      tags:
+        - User
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        "200":
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      auth:
+                        type: object
+                        properties:
+                          token:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Access token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of token expiration
+                                example: 1637520776
+                          refreshToken:
+                            type: object
+                            properties:
+                              token:
+                                type: string
+                                description: Refresh token
+                                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                              issued:
+                                type: integer
+                                description: Timestamp of refresh token issuance
+                                example: 1637434376
+                              expires:
+                                type: integer
+                                description: Timestamp of refresh token expiration
+                                example: 1637520776
+                  message:
+                    type: string
+                    description: Success message
+                    example: Success
+        "400":
+          description: Invalid request or email already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 400
+                  data:
+                    type: null
+                  message:
+                    type: string
+                    example: Email already exists.
+        "403":
+          description: Forbidden - Registration failed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 403
+                  data:
+                    type: null
+                  message:
+                    type: string
+                    example: Invalid request.
+  /user/update_fcm_token:
+    post:
+      summary: Update user's FCM token endpoint
+      description: Endpoint to update the FCM token for a user
+      tags:
+        - User
+      parameters:
+        - in: header
+          name: Authorization
+          required: true
+          schema:
+            type: string
+            format: bearer
+            description: Bearer token for user authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                uid:
+                  type: string
+                fcm_token:
+                  type: string
+      responses:
+        "200":
+          description: FCM token updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 200
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        description: User ID
+                        example: "123456"
+                      displayName:
+                        type: string
+                        description: User's display name
+                        example: John Doe
+                      email:
+                        type: string
+                        format: email
+                        description: User's email
+                        example: user@example.com
+                      createdAt:
+                        type: string
+                        format: date-time
+                        description: User creation timestamp
+                        example: 2023-11-20T12:00:00Z
+                      password:
+                        type: string
+                        description: User's password (excluded)
+                      fcm_token:
+                        type: string
+                        description: Updated FCM token
+                        example: UpdatedToken123
+                  message:
+                    type: string
+                    description: Success message
+                    example: Success
+        "404":
+          description: User information not found or invalid user ID
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: integer
+                    example: 404
+                  data:
+                    type: object
+                  message:
+                    type: string
+                    example: Invalid User
+      security:
+        - BearerAuth: []
+  /health:
+    get:
+      summary: Health check endpoint
+      description: Endpoint to check the health status of the service
+      tags:
+        - Health
+      responses:
+        "200":
+          description: Service is healthy
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uptime:
+                    type: number
+                    description: Uptime of the service in seconds
+                    example: 1234
+                  message:
+                    type: string
+                    description: Health check status message
+                    example: Ok
+                  date:
+                    type: string
+                    format: date-time
+                    description: Current date and time
+                    example: 2023-11-20T12:00:00Z
+        "503":
+          description: Service is unavailable
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  uptime:
+                    type: number
+                    description: Uptime of the service in seconds
+                    example: 1234
+                  message:
+                    type: string
+                    description: Error message indicating service unavailability
+                    example: '{"message": "Database connection failed"}'
+                  date:
+                    type: string
+                    format: date-time
+                    description: Current date and time
+                    example: 2023-11-20T12:00:00Z

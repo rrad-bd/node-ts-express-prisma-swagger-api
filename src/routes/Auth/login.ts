@@ -16,14 +16,6 @@ const router: Router = Router();
  *     summary: User login endpoint
  *     description: Endpoint to authenticate users by email and password
  *     tags: [Authentication]
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           format: bearer
- *           description: Bearer token for user authentication
  *     requestBody:
  *       required: true
  *       content:

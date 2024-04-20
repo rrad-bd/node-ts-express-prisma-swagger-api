@@ -13,23 +13,6 @@ const router: Router = Router();
  *     summary: User sign out endpoint
  *     description: Endpoint to sign out a user and delete associated tokens
  *     tags: [User]
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           format: bearer
- *           description: Bearer token for user authentication
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               uid:
- *                 type: string
  *     responses:
  *       '200':
  *         description: User signed out successfully

@@ -1,11 +1,12 @@
 {
-  "name": "lockscreen_rental",
+  "name": "template_api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/index.js",
+    "build": "npx tsc && npx copyfiles -u 1 ./src/public/**/* ./src/views/**/* ./dist",
+    "build:lib": "npx tsc",
+    "start": "node ./dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q ./dist/index.js\"",
     "swagger": "tsoa spec"
   },
@@ -44,6 +45,7 @@
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "copyfiles": "^2.4.1",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "express-request-audit": "^1.0.3",

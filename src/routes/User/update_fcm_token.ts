@@ -20,8 +20,6 @@ const router: Router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               uid:
- *                 type: string
  *               fcm_token:
  *                 type: string
  *     responses:

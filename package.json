@@ -31,7 +31,7 @@
     "concurrently": "^8.2.0",
     "nodemon": "^2.0.22",
     "prisma": "^4.15.0",
-    "prisma-dbml-generator": "^0.10.0",
+    "prisma-dbml-generator": "^0.12.0",
     "prisma-docs-generator": "^0.8.0",
     "prisma-erd-generator": "^1.6.2",
     "ts-node": "^10.9.1",

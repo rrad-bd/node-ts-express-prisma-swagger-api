@@ -22,7 +22,7 @@ const options = {
         },
         components: {
             securitySchemes: {
-                bearerAuth: {
+                BearerAuth: {
                     type: 'http',
                     in: 'header',
                     name: 'Authorization',
@@ -69,7 +69,7 @@ router.use(
     swaggerUi.serve,
     swaggerUi.setup(specs, {
         explorer: false,
-        customSiteTitle: "LockScreen Rental API",
+        customSiteTitle: "Template API",
         customfavIcon: "/favicon.ico",
         customCss: `
                     .topbar-wrapper img {content:url(\'/static/images/rrad-logo.png\'); width:auto; height:40px;}

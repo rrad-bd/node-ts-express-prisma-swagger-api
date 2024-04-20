@@ -13,14 +13,6 @@ const router: Router = Router();
  *     summary: Update user's FCM token endpoint
  *     description: Endpoint to update the FCM token for a user
  *     tags: [User]
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           format: bearer
- *           description: Bearer token for user authentication
  *     requestBody:
  *       required: true
  *       content:

@@ -14,14 +14,6 @@ const router: Router = Router();
  *     description: Endpoint to retrieve user information
  *     tags:
  *      - User
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           format: bearer
- *           description: Bearer token for user authentication
  *     responses:
  *       '200':
  *         description: User information retrieved successfully

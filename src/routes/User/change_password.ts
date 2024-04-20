@@ -16,14 +16,6 @@ const router: Router = Router();
  *     description: Endpoint to change a user's password
  *     tags:
  *      - User
- *     parameters:
- *       - in: header
- *         name: Authorization
- *         required: true
- *         schema:
- *           type: string
- *           format: bearer
- *           description: Bearer token for user authentication
  *     requestBody:
  *       required: true
  *       content:
@@ -31,8 +23,6 @@ const router: Router = Router();
  *           schema:
  *             type: object
  *             properties:
- *               uid:
- *                 type: string
  *               password:
  *                 type: string
  *               prevPassword:
